@@ -1,7 +1,14 @@
 const express = require('express')
+const cookieParser = require('cookie-parser');
 const app = express()
+app.use(cookieParser());
 app.all('/', (req, res) => {
-    console.log("IP LOG AT " + Date("now"))
-    res.send('Hello world from Cy-click<br><button>Click me!</button>')
+    var auth = res.cookie("auth");
+    if (auth){
+        res.redirect('/home')
+    } else {
+        res.redirect('/login')
+    }
 })
+app.get('/home', (req,res)=>{})
 app.listen(process.env.PORT || 3000)
